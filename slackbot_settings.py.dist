@@ -1,4 +1,4 @@
-API_TOKEN = "<slack-api-key-here"
+API_TOKEN = "<slack-api-key-here>"
 BOT_EMOJI = ':rage4:'
 default_reply = "(CLEAR!) All the things in your house"
 test_channel = "general"
