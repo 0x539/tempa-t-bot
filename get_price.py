@@ -37,7 +37,7 @@ def send_btc_update():
     old = get_cached_price()
     new = get_new_price()
     diff = (old - new) * -1
-    percent = (diff / old * 100) * -1
+    percent = (diff / old * 100)
     percent_string = "{:.2f}".format(percent)
 
     info = "Was: £%s Now: £%s Diff: £%s (%s%s)" % (old, new, diff, percent_string, "%")
