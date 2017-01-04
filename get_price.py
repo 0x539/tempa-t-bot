@@ -6,9 +6,14 @@ import requests
 
 from slackbot_settings import API_TOKEN
 
+FILENAME = "btc_price_cache.txt"
+
 
 def get_cached_price():
-    with open(os.path.abspath(os.path.join("btc_price_cache.txt"))) as data_file:
+    if not os.path.isfile(os.path.join(FILENAME)):
+        get_new_price()
+
+    with open(os.path.abspath(os.path.join(FILENAME))) as data_file:
         data = json.load(data_file)
 
     return float(data['data']['amount'])
@@ -17,7 +22,7 @@ def get_cached_price():
 def get_new_price():
     data = json.loads(urllib.urlopen("https://api.coinbase.com/v2/prices/BTC-GBP/buy").read())
 
-    with open('btc_price_cache.txt', 'w+') as outfile:
+    with open(FILENAME, 'w+') as outfile:
         json.dump(data, outfile)
 
     return float(data['data']['amount'])
