@@ -17,7 +17,7 @@ def get_cached_price():
 def get_new_price():
     data = json.loads(urllib.urlopen("https://api.coinbase.com/v2/prices/BTC-GBP/buy").read())
 
-    with open('btc_price_cache.txt', 'w') as outfile:
+    with open('btc_price_cache.txt', 'w+') as outfile:
         json.dump(data, outfile)
 
     return float(data['data']['amount'])
