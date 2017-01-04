@@ -4,6 +4,8 @@ import urllib
 import json
 import requests
 
+from slackbot_settings import API_TOKEN
+
 
 def get_cached_price():
     with open(os.path.abspath(os.path.join("btc_price_cache.txt"))) as data_file:
@@ -23,7 +25,7 @@ def get_new_price():
 
 def send_message(message):
     _vars = {
-        'token': 'xoxb-122304064195-ZZpMGWCWGrOQq6Pz50aEZuz3',
+        'token': API_TOKEN,
         'channel': 'G3M1V6G2K',
         'text': message
     }
@@ -34,17 +36,20 @@ def send_message(message):
 def send_btc_update():
     old = get_cached_price()
     new = get_new_price()
-    diff = old - new
+    diff = (old - new) * -1
     percent = (diff / old * 100) * -1
     percent_string = "{:.2f}".format(percent)
 
     info = "Was: £%s Now: £%s Diff: £%s (%s%s)" % (old, new, diff, percent_string, "%")
 
-    if percent > 10.0:
+    if percent > 0:
         send_message("BTC is UP!")
         send_message("%s" % info)
-    elif percent < -10.0:
+    elif percent < 0:
         send_message("BTC is DOWN!")
+        send_message("%s" % info)
+    else:
+        send_message("BTC is the same?")
         send_message("%s" % info)
 
 
